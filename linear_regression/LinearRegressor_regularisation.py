@@ -14,6 +14,10 @@ class LinearRegressor:
         self.alpha = alpha
         
     def fit(self, X, y, n_iterations=1000):
+        X_mean = np.mean(X, axis= 0)
+        X_std = np.std(X, axis= 0)
+        X = (X - X_mean) / X_std
+
         n_samples, n_features = X.shape
         
         # Initialize weights
@@ -42,6 +46,7 @@ class LinearRegressor:
             self.b -= self.learning_rate * db
             
     def predict(self, X):
+        X = (X - self.X_mean) / self.X_std
         return X @ self.w + self.b
     
 
